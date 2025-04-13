@@ -4,11 +4,27 @@ import { useEffect, useState } from 'react'
 const CountryDetails = () => {
     const [nations, setNations] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [search, setSearch] = useState(''); 
+    const [search, setSearch] = useState('Afghanistan');
+    const [dropDown, setDropDown] = useState('');
+    const [regions, setRegions] = useState([]);
 
-    const countriesList= nations.filter((nation) =>
-      nation.name.toLowerCase().includes(search.toLowerCase())
+
+    const countriesList = nations.filter((nation) =>
+    {
+      const searchNation = search
+      ? nation.name.toLowerCase().includes(search.toLowerCase()) : true;
+      const regionMatch = dropDown ? nation.region === dropDown : true;
+
+      return searchNation && regionMatch;
+    }
     );
+
+    useEffect(() => {
+      if (nations.length > 0) {
+        const uniqueRegions = [...new Set(nations.map((nation) => nation.region))];
+        setRegions(uniqueRegions);
+      }
+    }, [nations]);
 
         //using useEffect to fetch data from API
     useEffect(() => {
@@ -34,6 +50,7 @@ const CountryDetails = () => {
 
   return (
     <div className="container mt-5">
+      
                 <div className="container mt-5 d-flex justify-content-center">
                 <form className="d-flex" role="search">
                 <input
@@ -43,16 +60,30 @@ const CountryDetails = () => {
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder=" Search country here..."
                     aria-label="Search"
-                />
+                />               
                 </form>
-
             </div>
+            <div className="dropdown">
+                    <select
+                      className="form-select ms-2"
+                      value={dropDown}
+                      onChange={(e) => setDropDown(e.target.value)}
+                      title="Filter by region"
+                    >
+                      <option value="">All Regions</option>
+                      {regions.map((region) => (
+                        <option key={region} value={region}>
+                          {region}
+                        </option>
+                      ))}
+                    </select>
+                </div>
 
             <ul className="list-group mt-3">
                 {search && countriesList.map((nation) => (
                     <li key={nation.name} >
                         <div class="card">
-                            <img src = {nation.flag} class="card-img-top" alt="Your image description" />
+                            <img src = {nation.flag} class="card-img-top" alt={`${nation.name} flag`} />
                             <h5 class="card-title">{nation.name}</h5>
                             <div class="card-body">
                                 <p class="card-text"><strong>Capital:</strong> {nation.capital}</p>
