@@ -73,7 +73,7 @@ a{
   padding: 5px;
 }
 .container-fluid{
-  background-color: #28384568;
+  background-color: #283845dd;
   padding: 10px;
   width: 100%;
   align-items: center;
@@ -85,12 +85,11 @@ a{
 
   color: #f8f8f8e4 !important;
   font-weight: bold;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .dropdown {
   width: 150px; 
   margin: 10px auto; 
-  background-color: #28384568;
   border-radius: 10px;
 }
 
